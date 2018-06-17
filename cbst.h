@@ -6,12 +6,10 @@
 #define INIT_BST(NAME, TYPE, CMPFN, COPYFN, PRINTFN)                          \
 INIT_TREE(NAME, TYPE, CMPFN, COPYFN, PRINTFN)                                 \
                                                                               \
-typedef tree_##NAME bst_##NAME;                                               \
+extern tree_##NAME bst_##NAME##_insert(TYPE e, tree_##NAME t);                \
                                                                               \
-extern bst_##NAME bst_##NAME##_insert(TYPE e, bst_##NAME t);                  \
-                                                                              \
-bst_##NAME bst_##NAME##_insert(TYPE e, bst_##NAME t){                         \
-  bst_##NAME l = t;                                                           \
+tree_##NAME bst_##NAME##_insert(TYPE e, tree_##NAME t){                       \
+  tree_##NAME l = t;                                                          \
                                                                               \
   if (tree_##NAME##_isEmpty(t))                                               \
     return tree_##NAME##_cons(e,tree_##NAME##_new(), tree_##NAME##_new());    \
@@ -36,8 +34,8 @@ bst_##NAME bst_##NAME##_insert(TYPE e, bst_##NAME t){                         \
   return l;                                                                   \
 }                                                                             \
                                                                               \
-bst_##NAME bst_##NAME##_delete(TYPE e, bst_##NAME t) {                        \
-  bst_##NAME l = t, pl = NULL, pr = NULL, next = NULL;                        \
+tree_##NAME bst_##NAME##_delete(TYPE e, tree_##NAME t) {                      \
+  tree_##NAME l = t, pl = NULL, pr = NULL, next = NULL;                       \
   while(!tree_##NAME##_isEmpty(t) &&                                          \
          (CMPFN)(e, tree_##NAME##_root(t)) != 0) {                            \
     if((CMPFN)(e, tree_##NAME##_root(t)) < 0) {                               \
