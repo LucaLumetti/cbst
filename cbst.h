@@ -7,6 +7,7 @@
 INIT_TREE(NAME, TYPE, CMPFN, COPYFN, PRINTFN)                                 \
                                                                               \
 extern tree_##NAME bst_##NAME##_insert(TYPE e, tree_##NAME t);                \
+extern tree_##NAME bst_##NAME##_delete(TYPE e, tree_##NAME t);                \
                                                                               \
 tree_##NAME bst_##NAME##_insert(TYPE e, tree_##NAME t){                       \
   tree_##NAME l = t;                                                          \
@@ -15,7 +16,8 @@ tree_##NAME bst_##NAME##_insert(TYPE e, tree_##NAME t){                       \
     return tree_##NAME##_cons(e,tree_##NAME##_new(), tree_##NAME##_new());    \
                                                                               \
   while(!tree_##NAME##_isEmpty(t)) {                                          \
-    if((CMPFN)(e, tree_##NAME##_root(t)) <= 0){                               \
+    TYPE f = tree_##NAME##_root(t);                                           \
+    if((CMPFN)(&e, &f) <= 0){                                                 \
       if(tree_##NAME##_isEmpty(tree_##NAME##_left(t))) {                      \
         t->left =                                                             \
           tree_##NAME##_cons(e, tree_##NAME##_new(), tree_##NAME##_new());    \
@@ -37,8 +39,8 @@ tree_##NAME bst_##NAME##_insert(TYPE e, tree_##NAME t){                       \
 tree_##NAME bst_##NAME##_delete(TYPE e, tree_##NAME t) {                      \
   tree_##NAME l = t, pl = NULL, pr = NULL, next = NULL;                       \
   while(!tree_##NAME##_isEmpty(t) &&                                          \
-         (CMPFN)(e, tree_##NAME##_root(t)) != 0) {                            \
-    if((CMPFN)(e, tree_##NAME##_root(t)) < 0) {                               \
+         (CMPFN)(&e, &(t->value)) != 0) {                                      \
+    if((CMPFN)(&e, &(t->value)) < 0) {                                         \
       pl = t;                                                                 \
       pr = tree_##NAME##_new();                                               \
       t = tree_##NAME##_left(t);                                              \
